@@ -1,0 +1,15 @@
+<!--index.wxml-->
+<view class="container">
+  <!-- 添加数据 -->
+  <input placeholder="输入姓名" bindblur="inputName" maxlength="4"></input>
+  <input placeholder="输入年龄" bindblur="inputAge" maxlength="3"></input>
+  <button bindtap="addData">添加数据</button>
+  <!-- 查找数据 -->
+  <button bindtap="getData">查找数据</button>
+  <!-- 删除数据 -->
+  <input placeholder="输入要删除数据的id" bindblur="inputId"></input>
+  <button bindtap="delData">删除数据</button>
+  <!-- 更新数据 -->
+  <input placeholder="输入新的年龄" bindblur="inputNewAge" maxlength="3"></input>
+  <button bindtap="updData">更新数据</button>
+</view>
