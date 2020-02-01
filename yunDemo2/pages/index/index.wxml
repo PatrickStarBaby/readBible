@@ -1,5 +1,6 @@
 <!--index.wxml-->
 <view class="container">
+  <!-- --------------数据库操作-------------- -->
   <!-- 添加数据 -->
   <input placeholder="输入姓名" bindblur="inputName" maxlength="4"></input>
   <input placeholder="输入年龄" bindblur="inputAge" maxlength="3"></input>
@@ -12,4 +13,20 @@
   <!-- 更新数据 -->
   <input placeholder="输入新的年龄" bindblur="inputNewAge" maxlength="3"></input>
   <button bindtap="updData">更新数据</button>
+
+  <!-- --------------云函数-------------- -->
+  <button bindtap="yunAdd">云函数获取加法</button>
+  <button bindtap="yunGetData">云函数查找数据</button>
+
+  <!-- --------------云存储-------------- -->
+  <button bindtap="uploadImg">上传图片</button>
+  <!-- 展示上传的图片 -->
+  <image src="{{imgSrc}}"></image>
+  <!-- 上传视频 -->
+  <button bindtap="uploadVideo">上传视频</button>
+  <video src="{{vedioSrc}}"></video>
+  <!-- 上传excel文件 -->
+  <button bindtap="uploadExcel">上传excel文件</button>
+  <!-- 下载并打开excel文件 -->
+  <button bindtap="downloadExcel">下载并打开excel文件</button>
 </view>
