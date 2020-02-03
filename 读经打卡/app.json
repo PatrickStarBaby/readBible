@@ -1,0 +1,44 @@
+{
+  "pages": [
+    "pages/tabBar/index/index",
+    "pages/index/index",
+    "pages/tabBar/my/my",
+    "pages/tabBar/group/group",
+    "pages/groupSubpackage/searchGroup/searchGroup",
+    "pages/groupSubpackage/groupInfo/groupInfo"
+  ],
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#1ccfcf",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "position": "bottom",
+    "list": [
+      {
+        "pagePath": "pages/tabBar/index/index",
+        "text": "首页",
+        "iconPath": "static/images/tabBar/index.png",
+        "selectedIconPath": "static/images/tabBar/index_active.png"
+      },
+      {
+        "pagePath": "pages/tabBar/group/group",
+        "text": "小组",
+        "iconPath": "static/images/tabBar/group.png",
+        "selectedIconPath": "static/images/tabBar/group_active.png"
+      },
+      {
+        "pagePath": "pages/tabBar/my/my",
+        "text": "我的",
+        "iconPath": "static/images/tabBar/my.png",
+        "selectedIconPath": "static/images/tabBar/my_active.png"
+      }
+    ]
+  },
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#1ccfcf",
+    "navigationBarTitleText": "读经打卡",
+    "navigationBarTextStyle": "white"
+  },
+  "sitemapLocation": "sitemap.json"
+}

@@ -1,0 +1,13 @@
+<view>
+  <!-- 搜索框 -->
+  <view class="h100 width-full bg-1ccfcf">
+    <view class="flex flex-hc">
+      <image class="w50 h50 absolute" style="top: 18rpx; left: 64rpx;" src="/static/images/search.png"></image>
+      <input placeholder="按id搜索小组" maxlength="15" type="number" class="bg-fff h80 line-h80 w500 bd-rd30 pd-lt80 color-666" placeholder-class="ft-30 color-666" bindinput="getInputVal" value="{{inputVal}}"></input>
+      <image bindtap="clear" wx:if="{{inputVal.length != 0}}" class="w40 h40 absolute" style="top: 22rpx; left: 490rpx; z-index: 100;" src="/static/images/clear.png"></image>
+      <button class="w140 bg-fff color-666 h80 line-h80 bd-rd30 ft-34 mg-lt20" bindtap="search">搜索</button>
+    </view>
+  </view>
+
+  <!-- 搜索内容展示 -->
+</view>

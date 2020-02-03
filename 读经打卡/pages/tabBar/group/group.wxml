@@ -1,0 +1,12 @@
+<!--pages/tabBar/group/group.wxml-->
+<view>
+  <!-- 搜索框 -->
+  <view class="h100 width-full bg-1ccfcf">
+    <view class="flex flex-hc">
+      <image class="w50 h50 absolute" style="top: 18rpx; left: 44rpx;" src="/static/images/search.png"></image>
+      <view class="bg-fff h80 line-h80 w700 bd-rd30 pd-lt80 ft-30 color-666" bindtap="toSearch">
+        <text>搜索小组</text>
+      </view>
+    </view>
+  </view>
+</view>

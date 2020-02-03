@@ -1,0 +1,5 @@
+/* pages/tabBar/index/index.wxss */
+.block{
+  width: 750rpx;
+  height: 300rpx;
+}

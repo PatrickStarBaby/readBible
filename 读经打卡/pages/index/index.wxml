@@ -1,0 +1,6 @@
+<!--index.wxml-->
+<view class="container">
+  <view>
+    <button open-type="getUserInfo" bindtap="getUserInfo"></button>
+  </view>
+</view>
