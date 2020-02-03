@@ -849,6 +849,9 @@ view,a,text,input,button {
 .w50{
   width: 50rpx;
 }
+.w120{
+  width: 120rpx;
+}
 .w140{
   width: 140rpx;
 }
@@ -916,7 +919,12 @@ view,a,text,input,button {
 .h100{
   height: 100rpx;
 }
-
+.h120{
+  height: 120rpx;
+}
+.h150{
+  height: 150rpx;
+}
 
 /* 行高 */
 .line-h30{

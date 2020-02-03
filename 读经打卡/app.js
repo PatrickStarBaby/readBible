@@ -1,4 +1,5 @@
 //app.js
+const bible = require("/static/bible.js")
 App({
   onLaunch: function () {
     wx.cloud.init({
@@ -7,6 +8,8 @@ App({
   },
 
   globalData: {
-    userInfo: null
+    userInfo: null,
+    openid:'',
+    bible: bible
   }
 })

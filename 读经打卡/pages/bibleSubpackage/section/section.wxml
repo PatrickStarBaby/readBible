@@ -1,0 +1,3 @@
+<view>
+  <button class="bg-1ccfcf" open-type="getUserInfo" bindtap="getUserInfo">点击获取信息</button>
+</view>

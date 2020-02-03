@@ -10,4 +10,25 @@
   </view>
 
   <!-- 搜索内容展示 -->
+  <view wx:if="{{showResult}}">
+    <view wx:if="{{groupInfo.id.length == 0 || groupInfo.id == undefined}}" class="flex flex-hc mg-tp30 color-666">
+      <text>无相关搜索结果</text>
+    </view>
+
+    <view wx:else class="h150 width-full flex flex-vc flex-hc pd-lr20" style="border-bottom:1px solid #ddd">
+      <image class="w120 h120 bd-rd50" src="{{groupInfo.imgUrl}}" mode="aspectFill"></image>
+      <!-- <image class="w120 h120 bd-rd50" src="cloud://xgy-aemob.7867-xgy-aemob-1300217300/groupImg/ff0789f8c0d63b5691285c19f346dd16.jpg" mode="aspectFill"></image> -->
+      <view class="w500 flex flex-direction-row flex-vc flex-jsb mg-lt30">
+        <view class="flex flex-direction-column">
+          <text class="bold block w300 one-line-ellipsis">{{groupInfo.name}}</text>
+          <text class="ft-32 block w300 one-line-ellipsis">{{groupInfo.introduce}}</text>
+          <text class="color-999 ft-30">{{groupInfo.member.length}}位成员</text>
+        </view>
+        <view>
+          <button class="bg-1ccfcf w120 h70 line-h70" bindtap="joinGroup">加入</button>
+        </view>
+      </view>
+    </view>
+    
+  </view>
 </view>

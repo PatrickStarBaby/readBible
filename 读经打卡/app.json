@@ -1,11 +1,11 @@
 {
   "pages": [
     "pages/tabBar/index/index",
-    "pages/index/index",
     "pages/tabBar/my/my",
     "pages/tabBar/group/group",
     "pages/groupSubpackage/searchGroup/searchGroup",
-    "pages/groupSubpackage/groupInfo/groupInfo"
+    "pages/groupSubpackage/groupInfo/groupInfo",
+    "pages/bibleSubpackage/section/section"
   ],
   "tabBar": {
     "color": "#999999",
