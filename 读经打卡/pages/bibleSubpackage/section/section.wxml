@@ -47,12 +47,18 @@
       <view class="flex flex-vc pd-tb10" style="border-bottom: 1rpx solid #c1c1c1;">
         <text class="mg-lt30">已选：{{name}}</text>
       </view>
-      <view class="width-full flex flex-direction-row wrap">
-        <view wx:for="{{section}}">
-          <view class="w150 h100 flex flex-vc flex-hc" style="border-right: 1rpx solid #c1c1c1; border-bottom: 1rpx solid #c1c1c1;">
+      <view class="width-full flex flex-direction-row wrap pd-bt80">
+        <view wx:for="{{section}}" class="{{beginIndex == index||endIndex == index ? 'bg-FFEDD8' : ''}}">
+          <view bindtap="selectSection" data-index="{{index}}" class="w150 h100 flex flex-vc flex-hc relative" style="border-right: 1rpx solid #c1c1c1; border-bottom: 1rpx solid #c1c1c1;">
+            <text wx:if="{{sign == 0 && beginIndex == index}}" class="w50 h50 line-h50 block absolute color-fff bd-rd50 text-center ft-30" style="top: 0rpx; left: 0rpx;background-color:#8BC349;">始</text>
+            <text wx:if="{{sign == 1 && endIndex == index}}" class="w50 h50 line-h50 block absolute color-fff bd-rd50 text-center ft-30" style="top: 0rpx; left: 0rpx;background-color:#E71B24;">终</text>
             <text>{{index+1}}</text>
           </view>
         </view>
+      </view>
+
+      <view class="fixed flex flex-hc w750" style="bottom: 0rpx;">
+        <button class="bg-ff5400 color-fff h80 line-h80 ft-34 w700" bindtap="confirm">确定</button>
       </view>
     </view>
   </view>

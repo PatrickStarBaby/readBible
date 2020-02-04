@@ -204,6 +204,9 @@ page{
 .pd-bt30{
      padding-bottom:30rpx;
 }
+.pd-bt80{
+     padding-bottom:80rpx;
+}
 .pd-tb25{
      padding:25rpx 0;
 }
@@ -255,6 +258,9 @@ page{
 }
 .absolute{
      position:absolute;
+}
+.fixed{
+  position: fixed;
 }
 .border2{
      border-bottom:2rpx solid #f8f8f8;
@@ -491,6 +497,9 @@ view,a,text,input,button {
 }
 .bg-fc5920{
 	background:#FC5920;
+}
+.bg-FFEDD8{
+  background-color: #FFEDD8;
 }
 
 /* 边框 */
@@ -887,6 +896,9 @@ view,a,text,input,button {
 }
 .w700{
   width: 700rpx;
+}
+.w750{
+  width: 750rpx;
 }
 /*高*/
 .h30{
