@@ -60,6 +60,13 @@
 					"id": -1,
 					"name": "pages/groupSubpackage/searchGroup/searchGroup",
 					"pathName": "pages/groupSubpackage/searchGroup/searchGroup",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/bibleSubpackage/section/section",
+					"pathName": "pages/bibleSubpackage/section/section",
 					"scene": null
 				}
 			]

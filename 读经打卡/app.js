@@ -10,6 +10,6 @@ App({
   globalData: {
     userInfo: null,
     openid:'',
-    bible: bible
+    bible: bible.bible
   }
 })

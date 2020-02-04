@@ -1,3 +1,59 @@
 <view>
-  <button class="bg-1ccfcf" open-type="getUserInfo" bindtap="getUserInfo">点击获取信息</button>
+  <!-- 卷章切换 -->
+  <view class="width-full pd-bt10 flex flex-vc bg-E5E5E5">
+    <view class="width-50 flex flex-hc"  bindtap="selectJ">
+      <text class="block" class="{{isSelect?'selected':''}}">卷</text>
+    </view>
+    <view class="width-50 flex flex-hc"  bindtap="selectZ">
+      <text class="block" class="{{isSelect?'':'selected'}}">章</text>
+    </view>
+  </view>
+
+  <!-- 卷 -->
+  <view wx:if="{{isSelect}}">
+    <!-- 旧约 -->
+    <view class="flex flex-vc" style="border-bottom: 1rpx solid #c1c1c1;">
+      <image src="/static/images/downIcon.png" class="w70 h70 mg-lt30"></image>
+      <text>旧约</text>
+    </view>
+    <view class="width-full flex flex-direction-row wrap">
+      <view wx:for="{{oldTestament}}" wx:key="{{item}}">
+        <view bindtap="toSection" data-sign="0" data-index='{{index}}' class="w150 h100 flex flex-direction-column flex-hc" style="border-right: 1rpx solid #c1c1c1; border-bottom: 1rpx solid #c1c1c1;">
+          <text class="block w120 one-line-ellipsis mg-lt20" style="font-weight: 600;">{{item.short}}</text>
+          <text class="block w120 ft-28 one-line-ellipsis mg-lt20">{{item.name}}</text>
+        </view>
+      </view>
+    </view>
+
+
+    <!-- 新约 -->
+    <view class="flex flex-vc" style="border-bottom: 1rpx solid #c1c1c1;">
+      <image src="/static/images/downIcon.png" class="w70 h70 mg-lt30"></image>
+      <text>新约</text>
+    </view>
+    <view class="width-full flex flex-direction-row wrap">
+      <view wx:for="{{newTestament}}" wx:key="{{item}}">
+        <view bindtap="toSection" data-sign="1" data-index='{{index}}' class="w150 h100 flex flex-direction-column flex-hc" style="border-right: 1rpx solid #c1c1c1; border-bottom: 1rpx solid #c1c1c1;">
+          <text class="block w120 one-line-ellipsis mg-lt20" style="font-weight: 600;">{{item.short}}</text>
+          <text class="block w120 ft-28 one-line-ellipsis mg-lt20">{{item.name}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 章 -->
+  <view wx:if="{{!isSelect}}">
+    <view>
+      <view class="flex flex-vc pd-tb10" style="border-bottom: 1rpx solid #c1c1c1;">
+        <text class="mg-lt30">已选：{{name}}</text>
+      </view>
+      <view class="width-full flex flex-direction-row wrap">
+        <view wx:for="{{section}}">
+          <view class="w150 h100 flex flex-vc flex-hc" style="border-right: 1rpx solid #c1c1c1; border-bottom: 1rpx solid #c1c1c1;">
+            <text>{{index+1}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
 </view>

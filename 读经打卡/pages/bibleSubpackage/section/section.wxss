@@ -1,1 +1,5 @@
 /* pages/bibleSubpackage/section/section.wxss */
+.selected{
+  font-weight: 700;
+  border-bottom: 8rpx solid black;
+}

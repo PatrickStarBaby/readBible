@@ -219,6 +219,9 @@ page{
 .pd-lr30{
   padding: 0 30rpx;
 }
+.pd-lr100{
+  padding: 0 100rpx;
+}
 .pd30{
      padding:30rpx;
 }
@@ -278,6 +281,9 @@ page{
      display:-webkit-box;
      -webkit-line-clamp:2;
      -webkit-box-orient:vertical;
+}
+.width-50{
+  width: 50%;
 }
 .width-full{
   width: 100%;
@@ -474,6 +480,9 @@ view,a,text,input,button {
 .bg-ccc{
   	background: #ccc;
 }
+.bg-E5E5E5{
+  background-color: #E5E5E5;
+}
 .bg-f4f4f4{
 	background:#f4f4f4;
 }
@@ -644,6 +653,9 @@ view,a,text,input,button {
 }
 .mg-lr30{
   margin: 0 30rpx;
+}
+.mg-lr100{
+  margin: 0 100rpx;
 }
 .mg-tb15{
   margin: 15rpx 0;
@@ -849,11 +861,20 @@ view,a,text,input,button {
 .w50{
   width: 50rpx;
 }
+.w70{
+  width: 70rpx;
+}
+.w100{
+  width: 100rpx;
+}
 .w120{
   width: 120rpx;
 }
 .w140{
   width: 140rpx;
+}
+.w150{
+  width: 150rpx;
 }
 .w200{
   width: 200rpx;
@@ -1012,7 +1033,12 @@ view,a,text,input,button {
 .flex-direction-column{
   flex-direction: column;
 }
-
+.wrap{
+  flex-wrap: wrap;
+}
+.nowrap{
+  flex-wrap: nowrap;
+}
 .block {
   	display: block;
 }
