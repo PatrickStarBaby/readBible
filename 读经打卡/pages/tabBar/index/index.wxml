@@ -1,9 +1,9 @@
 <!--pages/tabBar/index/index.wxml-->
 <view class="content">
-  <swiper indicator-dots="true" circular="true" autoplay="true" interval="5000" indicator-color="#fff" indicator-active-color="#000">
+  <swiper class="swiper" indicator-dots="true" circular="true" autoplay="true" interval="5000" indicator-color="#fff" indicator-active-color="#000">
     <block wx:for="{{swiperList}}" wx:key="item">
       <swiper-item>
-        <image class="block" src="{{item.url}}" bindtap="clickBanner" data-id="{{item.id}}"></image>
+        <image class="block" mode="aspectFill" src="{{item.url}}" bindtap="clickBanner" data-id="{{item.id}}"></image>
       </swiper-item>
     </block>
   </swiper>
@@ -16,9 +16,15 @@
       <text class="ft-32">今日读经进度</text>
     </view>
     <view class="flex flex-direction-row flex-jsb mg-tp40">
-      <view class="border-9F9F9F color-666 w300 h80 flex flex-hc flex-vc ft-32" bindtap="start"><text>开始章节</text></view>
+      <view class="border-9F9F9F color-666 w300 h80 flex flex-hc flex-vc ft-32" bindtap="start">
+        <text wx:if="{{startSec.length == 0}}">开始章节</text>
+        <text wx:else>{{startSec}}</text>
+      </view>
       <view class="h80 flex flex-vc"><image src="../../../static/images/index/fromTo.png" class="w50 h50"></image></view>
-      <view class="border-9F9F9F color-666 w300 h80 flex flex-hc flex-vc ft-32" bindtap="end"><text>结束章节</text></view>
+      <view class="border-9F9F9F color-666 w300 h80 flex flex-hc flex-vc ft-32" bindtap="end">
+        <text wx:if="{{endSec.length == 0}}">结束章节</text>
+        <text wx:else>{{endSec}}</text>
+      </view>
     </view>
 
     <view class="mg-tp40">
@@ -30,6 +36,9 @@
       <view class="">
           <text>今日打卡</text>
           <text class="mg-lt10 bold">共{{num}}章</text>
+      </view>
+      <view class="mg-tp20">
+        <text>{{punchSec}}</text>
       </view>
     </view>
     <view class="width-full flex flex-hc color-1ccfcf absolute" style="bottom: 100rpx;">

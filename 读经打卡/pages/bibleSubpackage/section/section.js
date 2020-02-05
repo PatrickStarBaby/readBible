@@ -11,7 +11,8 @@ Page({
     newTestament: [], //新约
     oldTestament: [], //旧约
     isSelect: true, //控制卷、章切换
-    startSecInfo:{}, //选择的开始章节信息
+    startSecInfo: {}, //选择的开始章节信息
+    isSame: false, //开始章节结束章节是否一样
     name: '', //点击的书卷名
     section: 0, //点击书卷的章数
 
@@ -52,7 +53,7 @@ Page({
     let index = e.currentTarget.dataset.index
 
     //this.data.sign区分开始章节与结束章节
-    if (this.data.sign == 0) {//开始章节
+    if (this.data.sign == 0) { //开始章节
       // 标志位为0是旧约
       if (e.currentTarget.dataset.sign == 0) {
         let section = this.data.oldTestament[index].section
@@ -90,7 +91,7 @@ Page({
     }
 
     // 如果是选择结束章节时不能选择开始章节以前的
-    if (this.data.sign == 1) {//结束章节
+    if (this.data.sign == 1) { //结束章节
       console.log(index)
       console.log(e.currentTarget.dataset.sign)
       try {
@@ -116,28 +117,84 @@ Page({
         return
       }
       //如果开始章节和结束章节选择的都是旧约或者新约，结束章节不能小于开始章节
-      if (startSecInfo.isOldTestament == 1 && e.currentTarget.dataset.sign == 0 || startSecInfo.isOldTestament == 0 && e.currentTarget.dataset.sign == 1){
-        console.log("hh")
-        if (index < startSecInfo.start){
+      if (startSecInfo.isOldTestament == 1 && e.currentTarget.dataset.sign == 0 || startSecInfo.isOldTestament == 0 && e.currentTarget.dataset.sign == 1) {
+        console.log("index:", typeof(index))
+        console.log("start:", typeof(startSecInfo.start))
+        if (index < startSecInfo.start) {
           wx.showToast({
             title: '结束章节不能小于开始章节',
             icon: "none"
           })
           return
         }
+        //如果开始章节和结束章节相同
+        if (index == startSecInfo.start) {
+          console.log("haha")
+          let section = this.data.oldTestament[index].section
+          let name = this.data.oldTestament[index].name
+          that.setData({
+            isSame: true,
+            isSelect: false,
+            section: section,
+            name: name
+          })
+        }
+        //结束章节大于开始章节
+        if (index > startSecInfo.start) {
+          let section = this.data.oldTestament[index].section
+          let name = this.data.oldTestament[index].name
+          that.setData({
+            isSelect: false,
+            section: section,
+            name: name
+          })
+        }
       }
+      // 如果开始章节选择的旧约，结束章节选择的新约
+      if (startSecInfo.isOldTestament == 1 && e.currentTarget.dataset.sign == 1) {
+        let section = this.data.newTestament[index].section
+        let name = this.data.newTestament[index].name
+        that.setData({
+          isSelect: false,
+          section: section,
+          name: name
+        })
+      }
+
     }
   },
 
   // 选择章
   selectSection(e) {
-    console.log(e.currentTarget.dataset.index)
+    console.log("新旧sign:",this.data.sign)
     // 选择开始章节
     if (this.data.sign == 0) {
+      wx.setStorage({
+        key: 'beginIndex',
+        data: e.currentTarget.dataset.index,
+      })
       this.setData({
         beginIndex: e.currentTarget.dataset.index
       })
     } else { // 选择结束章节
+      try { //从缓存中拿到beginIndex用于比较
+        var value = wx.getStorageSync('beginIndex')
+        if (value) {
+          console.log(value)
+          this.setData({
+            beginIndex: value
+          })
+        }
+      } catch (e) {
+        console.log(e)
+      }
+      if (this.data.isSame && e.currentTarget.dataset.index <= this.data.beginIndex) {
+        wx.showToast({
+          title: '结束章节不能小于开始章节',
+          icon: "none"
+        })
+        return
+      }
       this.setData({
         endIndex: e.currentTarget.dataset.index
       })
@@ -149,8 +206,33 @@ Page({
   confirm() {
     if (this.data.sign == 0) {
       console.log(this.data.name + (this.data.beginIndex + 1) + "章")
+      let startSec = this.data.name + (this.data.beginIndex + 1) + "章";
+      app.globalData.startSec = startSec
+
+      wx.switchTab({
+        url: '../../tabBar/index/index',
+        success: function(e) {
+          var page = getCurrentPages().pop();
+          if (page == undefined || page == null) return
+          page.onLoad();
+        }
+      })
     } else {
-      console.log(this.data.name + this.data.endIndex)
+      console.log(this.data.name + (this.data.endIndex + 1) + "章")
+      let endSec = this.data.name + (this.data.endIndex + 1) + "章";
+      app.globalData.endSec = endSec
+      // wx.setStorage({
+      //   key: 'endSec',
+      //   data: endSec
+      // })
+      wx.switchTab({
+        url: '../../tabBar/index/index',
+        success: function (e) {
+          var page = getCurrentPages().pop();
+          if (page == undefined || page == null) return
+          page.onLoad();
+        }
+      })
     }
   },
 })

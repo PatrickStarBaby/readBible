@@ -10,6 +10,20 @@ App({
   globalData: {
     userInfo: null,
     openid:'',
-    bible: bible.bible
+    bible: bible.bible,
+    // startSec: {//开始章节信息
+    //   isOldTestament:false, //是否是旧约
+    //   name: '', //书卷名
+    //   section: '' //章节数
+    // }, 
+    // endSec: {//结束章节信息
+    //   isOldTestament: false, //是否是旧约
+    //   name: '', //书卷名
+    //   section: '' //章节数
+    // },
+    startSec: '',
+    endSec:'',
+
+    punchSec: '', //已经选择打卡的章节
   }
 })

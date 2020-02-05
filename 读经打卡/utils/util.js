@@ -1,4 +1,4 @@
-const formatTime = (date, type) => {  //根据type返回需要的时间格式 0带时分， 1带星期
+const formatTime = (date, type) => {  //根据type返回需要的时间格式 0带时分， 1带星期， 2什么都不带
   const year = date.getFullYear()
   const month = date.getMonth() + 1
   const day = date.getDate()
@@ -13,7 +13,9 @@ const formatTime = (date, type) => {  //根据type返回需要的时间格式 0�
   if(type == 1){
     return [year, month, day].map(formatNumber).join('/') + '(' + weekFun(week) + ')'
   }
-
+  if (type == 2) {
+    return [year, month, day].map(formatNumber).join('/')
+  }
 }
 
 const formatNumber = n => {

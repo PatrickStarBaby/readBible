@@ -1,5 +1,9 @@
 /* pages/tabBar/index/index.wxss */
+.swiper{
+  width: 750rpx;
+  height: 450rpx;
+}
 .block{
   width: 750rpx;
-  height: 300rpx;
+  height: 450rpx;
 }
