@@ -10,11 +10,11 @@ Page({
     swiperList: [], //轮播图列表
     date: '', //当前时间
     num: 0, //打卡读的章数
-    alreadyPunched: false, //今日是否已打卡
+    // alreadyPunched: 1, //记录打卡次数
     startSec: "", //开始章节
     endSec: "", //结束章节
 
-    punchSec: "", //打卡章节
+    punchSec: [], //打卡章节
   },
   onShow: function (e) {//调用onLoad刷新页面数据
     this.onLoad();
@@ -79,6 +79,15 @@ Page({
   // const country = userInfo.country
   punch(e) {
     // console.log(e.detail.rawData)
+    try {
+      var value = wx.getStorageSync('userInfo')
+      if (value) {
+        // console.log(value)
+        app.globalData.userInfo = value
+      }
+    } catch (e) {
+      console.log(e)
+    }
     if (app.globalData.userInfo == null && e.detail.rawData != undefined) {
       let userInfo = JSON.parse(e.detail.rawData) //整体user对象
       wx.cloud.callFunction({
@@ -100,27 +109,64 @@ Page({
     }else{
       if (app.globalData.startSec.length != 0 && app.globalData.endSec.length != 0){
         //从全局变量得到章节信息并分离出书卷名跟章节数
-        // console.log(app.globalData.startSec.replace(/[^0-9]+/ig, ""))
-        // console.log(app.globalData.startSec.split(app.globalData.startSec.replace(/[^0-9]+/ig, ""))[0])
-
         let startName = app.globalData.startSec.split(app.globalData.startSec.replace(/[^0-9]+/ig, ""))[0]
-        let startSec = app.globalData.startSec.replace(/[^0-9]+/ig, "")
+        let startSec = parseInt(app.globalData.startSec.replace(/[^0-9]+/ig, ""))
 
         let endName = app.globalData.endSec.split(app.globalData.endSec.replace(/[^0-9]+/ig, ""))[0];
-        let endSec = app.globalData.endSec.replace(/[^0-9]+/ig, "")
-
+        let endSec = parseInt(app.globalData.endSec.replace(/[^0-9]+/ig, ""))
+          
+        // 开始章节与结束章节是同一章
         if (startName == endName){
-          console.log(punchDate + ' [' + startName + startSec + '-' + endSec + '章]')
-          let punchSec = punchDate + ' [' + startName + startSec + '-' + endSec + '章]';
-          this.setData({
-            punchSec: punchSec
+          wx.showLoading({
+            title: '加载中',
           })
-          wx.setStorage({
-            key: 'punchSec',
-            data: punchSec,
-          })
-          app.globalData.punchSec = punchSec
+          console.log('[' + startName + startSec + '-' + endSec + '章]')
+          let punchSec = '[' + startName + startSec + '-' + endSec + '章]';
+          if (startSec == endSec){
+            punchSec = '[' + startName + startSec + '章]';
+          }
+          let punchSum = endSec - startSec + 1
+          this.confirmPunch(punchSec, punchSum)
+          wx.hideLoading();
+          
+        }else{//开始章节与结束章节不是同一章
+          let oldTestament = app.globalData.bible.slice(0, 39)
+          let newTestament = app.globalData.bible.slice(39, 66)
+          let punchSec = [];
+          let punchSum = 0;
+          for (let item of oldTestament){
+            if (item.name == startName){
+              let sec = '[' + startName + startSec + '-' + item.section + "章]";
+              if (startSec == item.section){
+                sec = '[' + startName + startSec + "章]";
+              }
+              punchSum += (item.section - startSec + 1)
+              punchSec.push(sec)
+            }
+            if (item.name == endName){
+              let sec = '[' + endName + '1' + '-' + endSec + '章]';
+              punchSum += endSec
+              punchSec.push(sec)             
+            }
+          }
+          for (let item of newTestament) {
+            if (item.name == startName) {
+              let sec = '[' + startName + startSec + '-' + item.section + "章]";
+              if (startSec == item.section) {
+                sec = '[' + startName + startSec + "章]";
+              }
+              punchSum += (item.section - startSec + 1)
+              punchSec.push(sec)              
+            }
+            if (item.name == endName) {
+              let sec = '[' + endName + '1' + '-' + endSec + '章]';
+              punchSum += endSec
+              punchSec.push(sec)
+            }
+          }
+          this.confirmPunch(punchSec, punchSum)
         }
+
       }else{
         wx.showToast({
           title: '请选择完整的打卡章节',
@@ -130,6 +176,40 @@ Page({
     }
 
   },
+  //提取出来的公共方法（储存打卡信息）
+  saveSectionInfo(punchSec, punchSum){
+    console.log("punchSum",punchSum)
+    app.globalData.punchSec.push(punchSec)
+    wx.setStorage({
+      key: 'punchSec',
+      data: app.globalData.punchSec,
+    })
+    this.setData({
+      punchSec: app.globalData.punchSec
+    }) 
+  },
+  //提取出来的公共方法（确定打卡）
+  confirmPunch(punchSec, punchSum) {
+    let that = this
+    wx.showModal({
+      title: '提示',
+      content: '打卡章节为：' + punchSec + '，打卡后记录不可修改，确定打卡吗？',
+      cancelText: '重新选择',
+      confirmText: '确定打卡',
+      success(res) {
+        if (res.confirm) {
+          that.saveSectionInfo(punchSec, punchSum)
+          wx.showToast({
+            title: '打卡成功',
+            icon: "success"
+          })
+        } else if (res.cancel) {
+
+        }
+      }
+    })
+  },
+
   //历史记录
   toHistory() {
 

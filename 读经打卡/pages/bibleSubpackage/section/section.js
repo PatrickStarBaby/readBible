@@ -51,7 +51,7 @@ Page({
   toSection(e) {
     var that = this;
     let index = e.currentTarget.dataset.index
-
+    console.log("新旧约标志",e.currentTarget.dataset.sign)
     //this.data.sign区分开始章节与结束章节
     if (this.data.sign == 0) { //开始章节
       // 标志位为0是旧约
@@ -116,10 +116,8 @@ Page({
         })
         return
       }
-      //如果开始章节和结束章节选择的都是旧约或者新约，结束章节不能小于开始章节
-      if (startSecInfo.isOldTestament == 1 && e.currentTarget.dataset.sign == 0 || startSecInfo.isOldTestament == 0 && e.currentTarget.dataset.sign == 1) {
-        console.log("index:", typeof(index))
-        console.log("start:", typeof(startSecInfo.start))
+      //如果开始章节和结束章节选择的都是旧约
+      if (startSecInfo.isOldTestament == 1 && e.currentTarget.dataset.sign == 0) {
         if (index < startSecInfo.start) {
           wx.showToast({
             title: '结束章节不能小于开始章节',
@@ -129,7 +127,6 @@ Page({
         }
         //如果开始章节和结束章节相同
         if (index == startSecInfo.start) {
-          console.log("haha")
           let section = this.data.oldTestament[index].section
           let name = this.data.oldTestament[index].name
           that.setData({
@@ -143,6 +140,37 @@ Page({
         if (index > startSecInfo.start) {
           let section = this.data.oldTestament[index].section
           let name = this.data.oldTestament[index].name
+          that.setData({
+            isSelect: false,
+            section: section,
+            name: name
+          })
+        }
+      }
+      //如果开始章节和结束章节选择的都是新约
+      if (startSecInfo.isOldTestament == 0 && e.currentTarget.dataset.sign == 1) {
+        if (index < startSecInfo.start) {
+          wx.showToast({
+            title: '结束章节不能小于开始章节',
+            icon: "none"
+          })
+          return
+        }
+        //如果开始章节和结束章节相同
+        if (index == startSecInfo.start) {
+          let section = this.data.newTestament[index].section
+          let name = this.data.newTestament[index].name
+          that.setData({
+            isSame: true,
+            isSelect: false,
+            section: section,
+            name: name
+          })
+        }
+        //结束章节大于开始章节
+        if (index > startSecInfo.start) {
+          let section = this.data.newTestament[index].section
+          let name = this.data.newTestament[index].name
           that.setData({
             isSelect: false,
             section: section,
@@ -188,7 +216,7 @@ Page({
       } catch (e) {
         console.log(e)
       }
-      if (this.data.isSame && e.currentTarget.dataset.index <= this.data.beginIndex) {
+      if (this.data.isSame && e.currentTarget.dataset.index < this.data.beginIndex) {
         wx.showToast({
           title: '结束章节不能小于开始章节',
           icon: "none"
@@ -204,7 +232,16 @@ Page({
 
   // 确定选择
   confirm() {
+    // 开始章节
     if (this.data.sign == 0) {
+      if (this.data.beginIndex == -1) {
+        wx.showModal({
+          title: "提示",
+          content: '请选择章节',
+          showCancel: false
+        })
+        return
+      }
       console.log(this.data.name + (this.data.beginIndex + 1) + "章")
       let startSec = this.data.name + (this.data.beginIndex + 1) + "章";
       app.globalData.startSec = startSec
@@ -217,7 +254,15 @@ Page({
           page.onLoad();
         }
       })
-    } else {
+    } else {//结束章节
+      if (this.data.endIndex == -1) {
+        wx.showModal({
+          title: "提示",
+          content: '请选择章节',
+          showCancel: false
+        })
+        return
+      }
       console.log(this.data.name + (this.data.endIndex + 1) + "章")
       let endSec = this.data.name + (this.data.endIndex + 1) + "章";
       app.globalData.endSec = endSec

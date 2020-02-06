@@ -24,6 +24,7 @@ App({
     startSec: '',
     endSec:'',
 
-    punchSec: '', //已经选择打卡的章节
+    punchSec: [], //已经选择打卡的章节
+    punchSum: 0, //打卡的章数
   }
 })

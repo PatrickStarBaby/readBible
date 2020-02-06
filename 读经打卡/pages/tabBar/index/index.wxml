@@ -29,7 +29,6 @@
 
     <view class="mg-tp40">
       <button bindgetuserinfo="punch" open-type='getUserInfo' wx:if="{{!alreadyPunched}}" class="width-full h80 line-h80 bg-1ccfcf bd-rd8 ft-36">今日打卡</button>
-      <button wx:else class="width-full h80 line-h80 bg-1ccfcf bd-rd8">修改打卡记录</button>
     </view>
 
     <view class="mg-tp20 ft-32">
@@ -37,11 +36,13 @@
           <text>今日打卡</text>
           <text class="mg-lt10 bold">共{{num}}章</text>
       </view>
-      <view class="mg-tp20">
-        <text>{{punchSec}}</text>
+      <view class="mg-tp10">
+        <view wx:for="{{punchSec}}">
+          <text class="mg-tp10">{{item}}</text>
+        </view>
       </view>
     </view>
-    <view class="width-full flex flex-hc color-1ccfcf absolute" style="bottom: 100rpx;">
+    <view class="width-full flex flex-hc color-1ccfcf absolute" style="bottom: 60rpx;">
         <text bindtap="toHistory">历史记录></text>
     </view>
   </view>
