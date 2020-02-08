@@ -13,6 +13,18 @@ Page({
     //时间戳
     var timestamp = new Date().getTime();
     console.log(timestamp)
+
+    try {
+      var value = wx.getStorageSync('groupInfo')
+      if (value) {
+        // console.log(value)
+        this.setData({
+          groupInfo: value
+        })
+      }
+    } catch (e) {
+      console.log(e)
+    }
   },
 
   //得到输入框内容
@@ -83,91 +95,129 @@ Page({
       "showResult": false
     })
   },
-
+  
   // 加入小组
-  joinGroup(){
+  joinGroup(e){
     wx.showLoading({
-      title: '加入中',
+      title: '加载中',
     })
-    let groupId =  this.data.groupInfo._id;
-    let member = this.data.groupInfo.member;
-    //判断全局变量中是否有openid信息
-    if (app.globalData.openid){
-      for( let i in member){
-        if (member[i] == app.globalData.openid){
+    var that = this;
+    try {
+      var value = wx.getStorageSync('userInfo')
+      if (value) {
+        // console.log(value)
+        app.globalData.userInfo = value
+      }
+    } catch (e) {
+      console.log(e)
+    }
+    // 检查是否登录
+    if (app.globalData.userInfo == null && e.detail.rawData != undefined) {
+      let userInfo = JSON.parse(e.detail.rawData) //整体user对象
+      wx.cloud.callFunction({
+        name: "login",
+        data: {
+          userInfo: userInfo
+        },
+        success(res) {
+          console.log("获取openid成功", res.result.openid)
+          // console.log("message", res.result)
+          userInfo.openid = res.result.openid
+          app.globalData.userInfo = userInfo
+          wx.setStorage({
+            key: 'userInfo',
+            data: userInfo
+          })
+          console.log(app.globalData.userInfo)
+          that.register();
+          wx.hideLoading();
+        },
+        fail(res) {
+          console.log("获取openid失败", res)
+        }
+      })
+    }else{//如果登陆了就可以加入小组
+      let groupId = this.data.groupInfo._id;
+      let member = this.data.groupInfo.member;
+      for (let i in member) {
+        if (member[i] == app.globalData.userInfo.openid) {
           wx.hideLoading()
           wx.showToast({
             title: '你已经加入该小组了，请勿重复操作',
             icon: "none"
           })
           return
-        }else{
-          wx.cloud.callFunction({
-            name:'joinGroup',
-            data:{
-              groupId: groupId,
-              member: member
-            },
-            success(res){
-              wx.hideLoading()
-              if (res.result.data == 1){
-                wx.showToast({
-                  title: '加入小组成功',
-                  icon: 'success'
-                })
-              }
-              console.log("加入小组成功", res.result.data)
-            },
-            fail(res){
-              wx.hideLoading()
-              console.log("加入小组失败", res)
-            }
-          })
         }
       }
-    }else{
+      console.log(this.data.groupInfo._id + "--" + this.data.groupInfo.member)
+      this.data.groupInfo.member.push(app.globalData.userInfo.openid)
       wx.cloud.callFunction({
-        name: 'login',
-        data: {},
-        success: res => {
-          app.globalData.openid = res.result.openid
-          for (let i in member) {
-            if (member[i] == app.globalData.openid) {
-              wx.hideLoading()
-              wx.showToast({
-                title: '你已经加入该小组了，请勿重复操作',
-                icon: "none"
-              })
-              return
-            } else {
-              wx.cloud.callFunction({
-                name: 'joinGroup',
-                data: {
-                  groupId: groupId,
-                  member: member
-                },
-                success(res) {
-                  wx.hideLoading()
-                  if (res.result.data == 1) {
-                    wx.showToast({
-                      title: '加入小组成功',
-                      icon: 'success'
-                    })
-                  }
-                  console.log("加入小组成功", res)
-                },
-                fail(res) {
-                  wx.hideLoading()
-                  console.log("加入小组失败", res)
-                }
-              })
-            }
-          }
+        name: 'joinGroup',
+        data: {
+          groupId: this.data.groupInfo._id,
+          member: this.data.groupInfo.member
         },
-        fail: err => {
-          console.error('[云函数] [login] 调用失败', err)
+        success(res) {
+          wx.hideLoading()
+          console.log("加入小组成功", that.data.groupInfo.member)
+          wx.setStorage({
+            key: 'groupInfo',
+            data: that.data.groupInfo
+          })
+          wx.showModal({
+            title: '提示',
+            content: '加入小组成功',
+            showCancel: false,
+            success(res) {
+              if (res.confirm) {
+                that.onLoad()
+              }
+            }
+          })
+        },
+        fail(res) {
+          wx.hideLoading()
+          console.log("加入小组失败", res)
         }
       })
     }
+    
+  },
+  //注册
+  register() {
+    let nickName = app.globalData.userInfo.nickName
+    let avatarUrl = app.globalData.userInfo.avatarUrl
+    let gender = app.globalData.userInfo.gender
+
+    //检测是否是新用户
+    wx.cloud.database().collection("userList").where({
+      uid: 'app.globalData.userInfo.openid'
+    }).get({
+      success(res) {
+        // isNew = false
+        console.log(res)
+        if (res.data.length == 0) {
+          console.log("新用户注册")
+          //是新用户就把用户信息添加到用户表
+          wx.cloud.database().collection("userList").add({
+            data: {
+              nickName: nickName,
+              avatarUrl: avatarUrl,
+              gender: gender,
+              punchInfo: [],
+              uid: app.globalData.userInfo.openid
+            },
+            success(res) {
+              console.log(res)
+              wx.setStorage({
+                key: '_id',
+                data: res._id
+              })
+            },
+          })
+        }
+      }
+    })
+
   },
 })

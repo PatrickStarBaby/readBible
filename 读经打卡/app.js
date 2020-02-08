@@ -12,7 +12,6 @@ App({
 
   globalData: {
     userInfo: null,
-    openid:'',
     bible: bible.bible,
     // startSec: {//开始章节信息
     //   isOldTestament:false, //是否是旧约

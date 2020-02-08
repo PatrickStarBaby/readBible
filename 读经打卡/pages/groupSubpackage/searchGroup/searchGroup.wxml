@@ -25,7 +25,7 @@
           <text class="color-999 ft-30">{{groupInfo.member.length}}位成员</text>
         </view>
         <view>
-          <button class="bg-1ccfcf w120 h70 line-h70" bindtap="joinGroup">加入</button>
+          <button class="bg-1ccfcf w120 h70 line-h70" bindgetuserinfo="joinGroup" open-type='getUserInfo'>加入</button>
         </view>
       </view>
     </view>
