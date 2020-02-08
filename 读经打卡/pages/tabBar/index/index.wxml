@@ -34,7 +34,7 @@
     <view class="mg-tp20 ft-32">
       <view class="">
           <text>今日打卡</text>
-          <text class="mg-lt10 bold">共{{num}}章</text>
+          <text class="mg-lt10 bold">共{{punchSum}}章</text>
       </view>
       <view class="mg-tp10">
         <view wx:for="{{punchSec}}">

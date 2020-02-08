@@ -1,10 +1,13 @@
 //app.js
 const bible = require("/static/bible.js")
+const punchDate = require("/utils/util.js").formatTime(new Date(), 2)
+
 App({
   onLaunch: function () {
     wx.cloud.init({
       env: 'xgy-aemob'//这个是环境ID，在云开发控制台可查看
     })
+
   },
 
   globalData: {
