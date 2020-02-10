@@ -39,7 +39,13 @@ Page({
         console.log(res)
       }
     })
-
+    //从全局变量中获取打卡的章节信息
+    that.setData({
+      startSec: app.globalData.startSec,
+      endSec: app.globalData.endSec,
+      punchSec: app.globalData.punchSec,
+      punchSum: app.globalData.punchSum
+    })
     // 从服务器拿到今日打卡信息并赋值给globalData
     try {
       var value = wx.getStorageSync('_id')
@@ -56,8 +62,6 @@ Page({
               console.log(app.globalData.punchSec + app.globalData.punchSum )
               //从全局变量中获取打卡的章节信息
               that.setData({
-                startSec: app.globalData.startSec,
-                endSec: app.globalData.endSec,
                 punchSec: app.globalData.punchSec,
                 punchSum: app.globalData.punchSum
               })
